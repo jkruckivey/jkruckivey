@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ivey EdTech Lab</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .content {
+            display: none;
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 20px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007cba;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #005a8b;
+        }
+        .error {
+            color: #d32f2f;
+            margin-top: 10px;
+        }
+        h1 {
+            color: #333;
+        }
+        .logout-btn {
+            float: right;
+            background-color: #666;
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+        .logout-btn:hover {
+            background-color: #444;
+        }
+    </style>
+</head>
+<body>
+    <div id="loginForm" class="login-container">
+        <h1>Ivey EdTech Lab</h1>
+        <p>Please enter the password to access this page:</p>
+        <input type="password" id="passwordInput" placeholder="Enter password">
+        <br>
+        <button onclick="checkPassword()">Enter</button>
+        <div id="errorMessage" class="error"></div>
+    </div>
+
+    <div id="content" class="content">
+        <button class="logout-btn" onclick="logout()">Logout</button>
+        <h1>Welcome to Ivey EdTech Lab</h1>
+        <p>This is your protected content area. You can add your content here.</p>
+        
+        <h2>About</h2>
+        <p>Add information about the Ivey EdTech Lab here.</p>
+        
+        <h2>Projects</h2>
+        <p>List your projects and initiatives here.</p>
+        
+        <h2>Contact</h2>
+        <p>Add contact information here.</p>
+    </div>
+
+    <script>
+        // Change this password to whatever you want
+        const correctPassword = "edtech2025";
+        
+        function checkPassword() {
+            const inputPassword = document.getElementById('passwordInput').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            if (inputPassword === correctPassword) {
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('content').style.display = 'block';
+                // Store login state in session storage
+                sessionStorage.setItem('authenticated', 'true');
+                errorMessage.textContent = '';
+            } else {
+                errorMessage.textContent = 'Incorrect password. Please try again.';
+                document.getElementById('passwordInput').value = '';
+            }
+        }
+        
+        function logout() {
+            sessionStorage.removeItem('authenticated');
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('content').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+        }
+        
+        // Check if user is already authenticated
+        window.onload = function() {
+            if (sessionStorage.getItem('authenticated') === 'true') {
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('content').style.display = 'block';
+            }
+        }
+        
+        // Allow Enter key to submit password
+        document.getElementById('passwordInput').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                checkPassword();
+            }
+        });
+    </script>
+</body>
+</html>
